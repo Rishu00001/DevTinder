@@ -4,6 +4,9 @@ const User = require("../models/user");
 const { validatorProfileEditData } = require("../utils/validation");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+
+const uploadOnCloudinary = require("../config/cloudinary");
+const upload = require("../middleware/multer");
 const profileRouter = express.Router(); // fixed here
 
 // View Profile
@@ -19,20 +22,28 @@ profileRouter.get("/view", userAuth, async (req, res) => {
 });
 
 // Edit Profile
-profileRouter.patch("/edit", userAuth, async (req, res) => {
+profileRouter.patch("/edit", userAuth, upload.single("photo"), async (req, res) => {
   try {
     const isValid = validatorProfileEditData(req);
     if (!isValid) {
       throw new Error("Invalid edit request");
     }
 
-    const updates = req.body;
     const userId = req.user._id;
+    const updates = req.body;
+
+    // If there's a new image, upload it and set it in updates
+    if (req.file) {
+      const imageUrl = await uploadOnCloudinary(req.file.path);
+      if (imageUrl) {
+        updates.photo = imageUrl; // Save the image URL in the DB
+      }
+    }
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $set: updates },
-      { new: true, runValidators: true } 
+      { new: true, runValidators: true }
     );
 
     if (!updatedUser) {
@@ -47,6 +58,8 @@ profileRouter.patch("/edit", userAuth, async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
+
 
 profileRouter.patch("/edit/password", userAuth, async (req, res) => {
   try {
@@ -87,5 +100,6 @@ profileRouter.patch("/edit/password", userAuth, async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
 
 module.exports = profileRouter;

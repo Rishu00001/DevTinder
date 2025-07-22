@@ -8,10 +8,12 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 3,
       maxlength: 100,
+      trim: true,
     },
     lastName: {
       type: String,
       required: true,
+      trim: true,
     },
     email: {
       type: String,
@@ -19,11 +21,12 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
+      lowercase: true,
     },
     password: {
       type: String,
       required: true,
-      
+      trim: true,
     },
     age: {
       type: Number,
@@ -32,8 +35,9 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
       required: true,
+      trim: true,
       validate(value) {
-        if (!["male", "female", "other"].includes(value)) {
+        if (!["male", "female", "other"].includes(value.trim())) {
           throw new Error("Invalid Gender");
         }
       },
@@ -41,10 +45,12 @@ const userSchema = new mongoose.Schema(
     photo: {
       type: String,
       default: "",
+      trim: true,
     },
     bio: {
       type: String,
       default: "Hey there! I am using DevTinder",
+      trim: true,
     },
     skills: {
       type: [String],
