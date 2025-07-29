@@ -14,7 +14,7 @@ const PORT = 3000;
 dotenv.config();
 app.use(
   cors({
-    origin: "http://localhost:5173", // or your frontend domain
+    origin: "https://devtinder-client.onrender.com", // or your frontend domain
     credentials: true,
   })
 );
