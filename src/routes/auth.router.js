@@ -79,7 +79,7 @@ authRouter.post("/login", async (req, res) => {
       expires: new Date(Date.now() + 8 * 3600000),
     });
 
-    res.status(200).json({ user });
+    res.status(200).json(user);
   } catch (error) {
     console.error("Login Error:", error.message);
     res.status(400).json({ message: error.message });
