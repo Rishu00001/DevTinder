@@ -25,7 +25,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/request", requestRouter);
 app.use("/api/user", userRouter);
-app.use("/api/payment",paymentRouter)
+app.use("/api/payment", paymentRouter);
 
 connectDB()
   .then(() => {
