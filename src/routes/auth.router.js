@@ -12,11 +12,14 @@ authRouter.post("/signup", async (req, res) => {
     // Validate input
     validateSignupData(req);
 
-    const { firstName, lastName, email, password, gender, bio, skills, photo } = req.body;
+    const { firstName, lastName, email, password, gender, bio, skills, photo } =
+      req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "This email is already registered" });
+      return res
+        .status(400)
+        .json({ message: "This email is already registered" });
     }
 
     // Hash password
@@ -39,7 +42,7 @@ authRouter.post("/signup", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "none",
+      sameSite: "None",
       expires: new Date(Date.now() + 8 * 3600000), // 8 hours
     });
 
@@ -75,7 +78,7 @@ authRouter.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "none",
+      sameSite: "None",
       expires: new Date(Date.now() + 8 * 3600000),
     });
 
@@ -91,11 +94,10 @@ authRouter.post("/logout", (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
+    sameSite: "None",
     expires: new Date(0),
   });
   res.status(200).json({ message: "Logged out successfully" });
 });
 
 module.exports = authRouter;
-

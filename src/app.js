@@ -8,13 +8,14 @@ const requestRouter = require("./routes/request.router");
 const userRouter = require("./routes/user.router");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const paymentRouter = require("./routes/payment.router");
 
 const app = express();
 const PORT = 3000;
 dotenv.config();
 app.use(
   cors({
-    origin: "https://devtinder-client.onrender.com", // or your frontend domain
+    origin: "https://devtinder-client.onrender.com", // https://devtinder-client.onrender.com
     credentials: true,
   })
 );
@@ -24,6 +25,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/request", requestRouter);
 app.use("/api/user", userRouter);
+app.use("/api/payment",paymentRouter)
 
 connectDB()
   .then(() => {
