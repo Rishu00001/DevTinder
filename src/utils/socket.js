@@ -6,7 +6,8 @@ const initialiseSocket = (server) => {
   //bind the socket to http server
   const io = socket(server, {
     cors: {
-      origin: "http://localhost:5173",
+      origin: "https://devtinder-client.onrender.com",
+      credentials : true,
     },
   });
 
